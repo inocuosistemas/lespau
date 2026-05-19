@@ -56,9 +56,23 @@ prisma generate && next build
 
 ## Data needed before publishing
 
-- Vercel project name.
-- Vercel team/account.
-- Git repository remote.
-- Desired staging domain.
-- Decision: public staging URL or password-protected.
-- Confirmation that committing `prisma/catalog.db` is acceptable.
+- Vercel project name: `lespau`.
+- Vercel team/account: same GitHub-connected account as `inocuosistemas`.
+- Git repository remote: `https://github.com/inocuosistemas/lespau.git`.
+- Desired staging domain: default Vercel `.vercel.app` domain.
+- Access: public staging URL.
+- Admin/config page: public for now, because it does not mutate server-side data.
+- Static SQLite snapshot: `prisma/catalog.db` is committed and used as the read-only catalog.
+
+## Vercel project settings
+
+- Project name: `lespau`
+- Framework preset: Next.js
+- Build command: `npm run vercel-build`
+- Install command: default `npm install`
+- Output directory: default
+- Environment variable:
+
+```env
+DATABASE_URL=file:./catalog.db
+```
