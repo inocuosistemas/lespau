@@ -12,15 +12,15 @@ export type CareerOutcomeInfo = {
 
 const institutionalSources = [
   {
-    label: "QEDU - Ministerio de Ciencia, Innovación y Universidades",
+    label: "QEDU - Ministeri de Ciència, Innovació i Universitats",
     url: "https://www.ciencia.gob.es/qedu"
   },
   {
-    label: "EUC/AQU Catalunya - indicadores de calidad e inserción laboral",
+    label: "EUC/AQU Catalunya - indicadors de qualitat i inserció laboral",
     url: "https://estudis.aqu.cat/euc/ca/Comu/QueEsEuc"
   },
   {
-    label: "Idescat/AQU - inserción laboral de graduados universitarios",
+    label: "Idescat/AQU - inserció laboral de persones graduades universitàries",
     url: "https://www.idescat.cat/estad/ilgu"
   }
 ];
@@ -28,79 +28,79 @@ const institutionalSources = [
 const byPattern: Array<{ pattern: RegExp; outcomes: string[] }> = [
   {
     pattern: /medicina/i,
-    outcomes: ["medicina asistencial", "especialidades MIR", "salud publica", "investigacion biomedica", "gestion sanitaria"]
+    outcomes: ["medicina assistencial", "especialitats MIR", "salut pública", "recerca biomèdica", "gestió sanitària"]
   },
   {
     pattern: /infermer/i,
-    outcomes: ["enfermeria hospitalaria", "atencion primaria", "salud comunitaria", "urgencias", "gestion de cuidados"]
+    outcomes: ["infermeria hospitalària", "atenció primària", "salut comunitària", "urgències", "gestió de cures"]
   },
   {
     pattern: /psicolog/i,
-    outcomes: ["psicologia sanitaria", "recursos humanos", "intervencion social", "educacion", "investigacion"]
+    outcomes: ["psicologia sanitària", "recursos humans", "intervenció social", "educació", "recerca"]
   },
   {
     pattern: /farm|nutric|fisioter|odont|veterin/i,
-    outcomes: ["asistencia sanitaria", "consulta profesional", "industria y servicios de salud", "prevencion", "investigacion aplicada"]
+    outcomes: ["assistència sanitària", "consulta professional", "indústria i serveis de salut", "prevenció", "recerca aplicada"]
   },
   {
     pattern: /biomed|biotecn|biologia|gen[eè]tica|bio/i,
-    outcomes: ["laboratorios de investigacion", "industria biotecnologica", "analisis clinico", "calidad y regulacion", "I+D"]
+    outcomes: ["laboratoris de recerca", "indústria biotecnològica", "anàlisi clínica", "qualitat i regulació", "R+D"]
   },
   {
     pattern: /qu[ií]mica|f[ií]sica|matem[aà]tiques|estad[ií]stica/i,
-    outcomes: ["I+D", "analisis de datos", "industria", "docencia", "consultoria tecnica"]
+    outcomes: ["R+D", "anàlisi de dades", "indústria", "docència", "consultoria tècnica"]
   },
   {
     pattern: /inform[aà]tica|dades|intel|software|videojocs/i,
-    outcomes: ["desarrollo de software", "datos e inteligencia artificial", "ciberseguridad", "sistemas", "producto digital"]
+    outcomes: ["desenvolupament de software", "dades i intel·ligència artificial", "ciberseguretat", "sistemes", "producte digital"]
   },
   {
     pattern: /telecom|industrial|mec[aà]nica|el[eè]ctrica|electr[oò]nica|energia|organitzaci[oó]|civil/i,
-    outcomes: ["ingenieria de proyectos", "produccion y operaciones", "consultoria tecnica", "calidad", "I+D industrial"]
+    outcomes: ["enginyeria de projectes", "producció i operacions", "consultoria tècnica", "qualitat", "R+D industrial"]
   },
   {
     pattern: /arquitectura|edificaci[oó]|urbanisme/i,
-    outcomes: ["proyectos arquitectonicos", "urbanismo", "rehabilitacion", "direccion de obra", "consultoria tecnica"]
+    outcomes: ["projectes arquitectònics", "urbanisme", "rehabilitació", "direcció d'obra", "consultoria tècnica"]
   },
   {
     pattern: /ambientals|geologia|mar/i,
-    outcomes: ["gestion ambiental", "consultoria ambiental", "analisis territorial", "educacion ambiental", "administracion publica"]
+    outcomes: ["gestió ambiental", "consultoria ambiental", "anàlisi territorial", "educació ambiental", "administració pública"]
   },
   {
     pattern: /empresa|direcci[oó]|economia|finances|comptabilitat|m[aà]rqueting|negocis/i,
-    outcomes: ["direccion y gestion de empresas", "finanzas", "marketing", "consultoria", "emprendimiento"]
+    outcomes: ["direcció i gestió d'empreses", "finances", "màrqueting", "consultoria", "emprenedoria"]
   },
   {
     pattern: /turisme|hoteler/i,
-    outcomes: ["gestion turistica", "hoteleria", "eventos", "marketing turistico", "administracion de destinos"]
+    outcomes: ["gestió turística", "hoteleria", "esdeveniments", "màrqueting turístic", "administració de destinacions"]
   },
   {
     pattern: /dret|criminolog/i,
-    outcomes: ["abogacia y procura", "asesoria juridica", "administracion publica", "compliance", "consultoria legal"]
+    outcomes: ["advocacia i procura", "assessoria jurídica", "administració pública", "compliment normatiu", "consultoria legal"]
   },
   {
     pattern: /educaci[oó]|mestre|pedagog/i,
-    outcomes: ["docencia", "orientacion educativa", "educacion no formal", "gestion de centros", "innovacion pedagogica"]
+    outcomes: ["docència", "orientació educativa", "educació no formal", "gestió de centres", "innovació pedagògica"]
   },
   {
     pattern: /comunicaci[oó]|periodisme|publicitat|audiovisual/i,
-    outcomes: ["medios y contenidos", "comunicacion corporativa", "publicidad", "produccion audiovisual", "estrategia digital"]
+    outcomes: ["mitjans i continguts", "comunicació corporativa", "publicitat", "producció audiovisual", "estratègia digital"]
   },
   {
     pattern: /art|disseny|belles arts|m[uú]sica|cinema/i,
-    outcomes: ["diseño y creacion", "produccion cultural", "direccion artistica", "industria audiovisual", "docencia artistica"]
+    outcomes: ["disseny i creació", "producció cultural", "direcció artística", "indústria audiovisual", "docència artística"]
   },
   {
     pattern: /traducci[oó]|lleng|filolog|literatura|humanitats|hist[oò]ria|filosofia/i,
-    outcomes: ["edicion y contenidos", "traduccion", "docencia", "gestion cultural", "investigacion y patrimonio"]
+    outcomes: ["edició i continguts", "traducció", "docència", "gestió cultural", "recerca i patrimoni"]
   },
   {
     pattern: /pol[ií]tiques|sociolog|relacions|treball social|social/i,
-    outcomes: ["intervencion social", "administracion publica", "analisis de politicas", "cooperacion", "investigacion social"]
+    outcomes: ["intervenció social", "administració pública", "anàlisi de polítiques", "cooperació", "recerca social"]
   },
   {
     pattern: /activitat f[ií]sica|esport/i,
-    outcomes: ["entrenamiento deportivo", "gestion deportiva", "actividad fisica y salud", "educacion", "readaptacion deportiva"]
+    outcomes: ["entrenament esportiu", "gestió esportiva", "activitat física i salut", "educació", "readaptació esportiva"]
   }
 ];
 
@@ -109,8 +109,8 @@ export function getCareerOutcomeInfo(degree: DegreeOutcomeInput): CareerOutcomeI
   const match = byPattern.find((item) => item.pattern.test(text));
 
   return {
-    outcomes: match?.outcomes ?? ["gestion de proyectos", "consultoria", "docencia", "administracion publica", "especializacion de posgrado"],
-    sourceNote: "Salidas orientativas por familia de grado; contrastables con indicadores de insercion laboral y fichas oficiales.",
+    outcomes: match?.outcomes ?? ["gestió de projectes", "consultoria", "docència", "administració pública", "especialització de postgrau"],
+    sourceNote: "Idees orientatives segons la família de la carrera. Abans de decidir, revisa també dades oficials i opinions de persones que l'hagin estudiat.",
     sources: institutionalSources
   };
 }

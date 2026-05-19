@@ -6,13 +6,13 @@ import { defaultRecommendationWeights, type RecommendationWeights } from "@/lib/
 const storageKey = "pau-match-scoring-weights-v1";
 
 const labels: Record<keyof RecommendationWeights, string> = {
-  interests: "Intereses",
-  pauSubjects: "Asignaturas PAU",
-  admissionRealism: "Realismo de nota",
-  coreSubjectAffinity: "Troncales BAT",
-  employability: "Salidas laborales",
-  location: "Ubicacion",
-  personalPreferences: "Preferencias personales"
+  interests: "El que t'interessa",
+  pauSubjects: "Assignatures que portes",
+  admissionRealism: "La teva nota estimada",
+  coreSubjectAffinity: "Assignatures que t'agraden",
+  employability: "Opcions de feina",
+  location: "Ciutat",
+  personalPreferences: "El que prefereixes"
 };
 
 export function ScoringWeightsForm() {
@@ -44,8 +44,8 @@ export function ScoringWeightsForm() {
     <div>
       <div className="flex items-center justify-between gap-4">
         <div>
-          <h2 className="text-lg font-semibold text-ink">Pesos del scoring</h2>
-          <p className="mt-1 text-sm text-ink/65">Se guardan en este navegador y se aplican al calcular resultados.</p>
+          <h2 className="text-lg font-semibold text-ink">Què pesa més</h2>
+          <p className="mt-1 text-sm text-ink/65">Ajusta què vols que compti més en ordenar les teves opcions.</p>
         </div>
         <button type="button" onClick={reset} className="rounded-md border border-ink/15 px-3 py-2 text-sm font-semibold text-ink hover:bg-paper">
           Restaurar
@@ -72,7 +72,7 @@ export function ScoringWeightsForm() {
       </div>
 
       <div className={`mt-4 rounded-md px-3 py-2 text-sm font-semibold ${total === 100 ? "bg-moss text-white" : "bg-coral/10 text-coral"}`}>
-        Total: {total}. {total === 100 ? "Configuracion equilibrada." : "Conviene que sume 100 para leer porcentajes con claridad."}
+        Total: {total}. {total === 100 ? "Repartiment equilibrat." : "Millor si suma 100 per llegir-ho fàcil."}
       </div>
     </div>
   );

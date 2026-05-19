@@ -131,15 +131,36 @@ const coreSubjectAffinities: Record<string, string[]> = {
 };
 
 const coreSubjectLabels: Record<string, string> = {
-  lengua: "Lengua",
+  lengua: "Llengua",
   literatura: "Literatura",
-  historia: "Historia",
+  historia: "Història",
   filosofia: "Filosofia",
-  matematicas: "Matematicas",
-  ingles: "Ingles",
-  educacion_fisica: "Educacion fisica",
-  dibujo: "Dibujo"
+  matematicas: "Matemàtiques",
+  ingles: "Anglès",
+  educacion_fisica: "Educació física",
+  dibujo: "Dibuix"
 };
+
+const tagLabels: Record<string, string> = {
+  salud: "salut",
+  tecnologia: "tecnologia",
+  empresa: "empresa",
+  educacion: "educació",
+  arte: "art",
+  "ciencias sociales": "ciències socials",
+  deporte: "esport",
+  comunicacion: "comunicació",
+  creatividad: "creativitat",
+  "trato humano": "tracte amb persones",
+  ciencias: "ciències",
+  "mucha matematica": "massa mates",
+  "mucha ciencia": "massa ciència",
+  "sin ordenadores": "poca tecnologia",
+  "sin trato humano": "poc tracte amb persones",
+  "sin numeros": "massa números"
+};
+
+const labelForTag = (tag: string) => tagLabels[tag] ?? tag;
 
 function matchingCoreSubjects(profile: UserProfileInput, degree: DegreeForRecommendation) {
   return profile.favoriteCoreSubjects.filter((subject) => {
@@ -161,43 +182,43 @@ function buildReasons(profile: UserProfileInput, degree: DegreeForRecommendation
   const coreMatches = matchingCoreSubjects(profile, degree);
 
   if (sharedInterests.length > 0) {
-    reasons.push(`Tus intereses coinciden con ${sharedInterests.slice(0, 3).join(", ")}.`);
+    reasons.push(`Té a veure amb coses que t'interessen: ${sharedInterests.slice(0, 3).map(labelForTag).join(", ")}.`);
   }
   if (strongWeighted.length > 0) {
     reasons.push(
-      `Tus asignaturas fuertes ponderan bien: ${strongWeighted
+      `Et pot ajudar portar bé: ${strongWeighted
         .slice(0, 3)
         .map((item) => item.subject.name)
         .join(", ")}.`
     );
   }
   if (coreMatches.length > 0) {
-    reasons.push(`Tambien encaja con troncales que te gustaban: ${coreMatches.map((item) => coreSubjectLabels[item] ?? item).slice(0, 3).join(", ")}.`);
+    reasons.push(`També connecta amb assignatures que t'agradaven: ${coreMatches.map((item) => coreSubjectLabels[item] ?? item).slice(0, 3).join(", ")}.`);
   }
   if (profile.estimatedAdmission && degree.cutoff) {
     const margin = profile.estimatedAdmission - degree.cutoff;
     reasons.push(
       margin >= 0
-        ? `Tu nota estimada supera la nota de corte aproximada por ${margin.toFixed(2)} puntos.`
-        : `Tu nota estimada queda a ${Math.abs(margin).toFixed(2)} puntos de la nota de corte aproximada.`
+        ? `La teva nota estimada supera la nota de tall aproximada per ${margin.toFixed(2)} punts.`
+        : `La teva nota estimada queda a ${Math.abs(margin).toFixed(2)} punts de la nota de tall aproximada.`
     );
   }
   if (profile.preferredCity && degree.campus?.city.toLowerCase() === profile.preferredCity.toLowerCase()) {
-    reasons.push(`Encaja con tu ciudad preferida: ${degree.campus.city}.`);
+    reasons.push(`És en una ciutat que has marcat: ${degree.campus.city}.`);
   }
   if (breakdown.employability >= defaultRecommendationWeights.employability * 0.75) {
-    reasons.push("Tiene una empleabilidad estimada alta dentro del MVP.");
+    reasons.push("Sol tenir bones sortides.");
   }
 
   const dislikes = degree.avoidTags.filter((tag) => profile.dislikes.includes(tag));
   if (dislikes.length > 0) {
-    warnings.push(`Puede chirriar por: ${dislikes.slice(0, 2).join(", ")}.`);
+    warnings.push(`Revisa això perquè ho volies evitar: ${dislikes.slice(0, 2).map(labelForTag).join(", ")}.`);
   }
   if (degree.mathIntensity > profile.mathTolerance) {
-    warnings.push("Exige mas matematicas de las que has marcado como comodas.");
+    warnings.push("Pot tenir més mates de les que et venen de gust.");
   }
   if (degree.scienceIntensity > profile.scienceTolerance) {
-    warnings.push("Tiene mas carga cientifica de la indicada en tus preferencias.");
+    warnings.push("Pot tenir més ciència de la que et ve de gust.");
   }
 
   return { reasons, warnings };

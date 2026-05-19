@@ -4,13 +4,13 @@ import Link from "next/link";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Recomendador PAU Catalunya",
-  description: "MVP explicable para orientar la eleccion de grados universitarios en Catalunya."
+  title: "PAU Match Catalunya",
+  description: "Una ajuda clara per triar carrera universitària a Catalunya."
 };
 
 export default function RootLayout({ children }: Readonly<{ children: ReactNode }>) {
   return (
-    <html lang="es">
+    <html lang="ca">
       <body className="font-sans antialiased">
         <header className="border-b border-ink/10 bg-white/70 backdrop-blur">
           <nav className="mx-auto flex max-w-6xl items-center justify-between px-5 py-4">
@@ -18,11 +18,11 @@ export default function RootLayout({ children }: Readonly<{ children: ReactNode 
               PAU Match Catalunya
             </Link>
             <div className="flex items-center gap-2 text-sm">
-              <Link className="rounded-md px-3 py-2 text-ink/75 hover:bg-ink/5" href="/profile">
-                Mi perfil
+              <Link className="rounded-md px-3 py-2 text-ink/75 hover:bg-ink/5" href="/">
+                Inici
               </Link>
-              <Link className="rounded-md px-3 py-2 text-ink/75 hover:bg-ink/5" href="/admin/import">
-                Configurar
+              <Link className="rounded-md px-3 py-2 text-ink/75 hover:bg-ink/5" href="/profile">
+                Les meves opcions
               </Link>
             </div>
           </nav>

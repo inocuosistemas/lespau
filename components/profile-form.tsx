@@ -8,32 +8,53 @@ type SubjectOption = {
   name: string;
 };
 
+type ChoiceOption = {
+  value: string;
+  label: string;
+};
+
 const interests = [
-  "salud",
-  "tecnologia",
-  "empresa",
-  "educacion",
-  "arte",
-  "ciencias sociales",
-  "deporte",
-  "comunicacion",
-  "creatividad",
-  "trato humano",
-  "ciencias"
+  { value: "salud", label: "salut" },
+  { value: "tecnologia", label: "tecnologia" },
+  { value: "empresa", label: "empresa" },
+  { value: "educacion", label: "educació" },
+  { value: "arte", label: "art" },
+  { value: "ciencias sociales", label: "ciències socials" },
+  { value: "deporte", label: "esport" },
+  { value: "comunicacion", label: "comunicació" },
+  { value: "creatividad", label: "creativitat" },
+  { value: "trato humano", label: "tracte amb persones" },
+  { value: "ciencias", label: "ciències" }
 ];
 
-const dislikes = ["mucha matematica", "mucha ciencia", "sin ordenadores", "sin trato humano", "sin numeros"];
+const dislikes = [
+  { value: "mucha matematica", label: "massa mates" },
+  { value: "mucha ciencia", label: "massa ciència" },
+  { value: "sin ordenadores", label: "poca tecnologia" },
+  { value: "sin trato humano", label: "poc tracte amb persones" },
+  { value: "sin numeros", label: "massa números" }
+];
 
-const cities = ["Barcelona", "Cerdanyola del Valles", "Girona", "Vic", "L'Hospitalet de Llobregat"];
+const previousDislikeValues: Record<string, string> = {
+  "demasiadas mates": "mucha matematica",
+  "demasiada ciencia": "mucha ciencia",
+  "poca tecnologia": "sin ordenadores",
+  "poco trato con personas": "sin trato humano",
+  "demasiados numeros": "sin numeros"
+};
+
+const normalizeDislikeValues = (values: string[]) => values.map((value) => previousDislikeValues[value] ?? value);
+
+const cities = ["Barcelona", "Cerdanyola del Vallès", "Girona", "Vic", "L'Hospitalet de Llobregat"];
 const coreSubjects = [
-  { value: "lengua", label: "Lengua" },
+  { value: "lengua", label: "Llengua" },
   { value: "literatura", label: "Literatura" },
-  { value: "historia", label: "Historia" },
+  { value: "historia", label: "Història" },
   { value: "filosofia", label: "Filosofia" },
-  { value: "matematicas", label: "Matematicas" },
-  { value: "ingles", label: "Ingles" },
-  { value: "educacion_fisica", label: "Educacion fisica" },
-  { value: "dibujo", label: "Dibujo" }
+  { value: "matematicas", label: "Matemàtiques" },
+  { value: "ingles", label: "Anglès" },
+  { value: "educacion_fisica", label: "Educació física" },
+  { value: "dibujo", label: "Dibuix" }
 ];
 const storageKey = "pau-match-profile-v1";
 const scoringStorageKey = "pau-match-scoring-weights-v1";
@@ -101,7 +122,7 @@ export function ProfileForm({ subjects }: { subjects: SubjectOption[] }) {
       if (Array.isArray(parsed.favoriteCoreSubjects)) setFavoriteCoreSubjects(parsed.favoriteCoreSubjects);
       if (typeof parsed.includePrivateUniversities === "boolean") setIncludePrivateUniversities(parsed.includePrivateUniversities);
       if (Array.isArray(parsed.selectedInterests)) setSelectedInterests(parsed.selectedInterests);
-      if (Array.isArray(parsed.selectedDislikes)) setSelectedDislikes(parsed.selectedDislikes);
+      if (Array.isArray(parsed.selectedDislikes)) setSelectedDislikes(normalizeDislikeValues(parsed.selectedDislikes));
       if (typeof parsed.estimatedAdmission === "string") setEstimatedAdmission(parsed.estimatedAdmission);
       if (typeof parsed.preferredCity === "string") setPreferredCity(parsed.preferredCity);
       if (typeof parsed.mathTolerance === "number") setMathTolerance(parsed.mathTolerance);
@@ -167,7 +188,7 @@ export function ProfileForm({ subjects }: { subjects: SubjectOption[] }) {
   return (
     <div className="grid gap-6 lg:grid-cols-[0.95fr_1.05fr]">
       <section className="rounded-lg border border-ink/10 bg-white/80 p-5">
-        <h2 className="text-lg font-semibold text-ink">Asignaturas PAU</h2>
+        <h2 className="text-lg font-semibold text-ink">Assignatures que portes per a la PAU</h2>
         <div className="mt-4 grid gap-2">
           {subjects.map((subject) => (
             <label key={subject.code} className="flex items-center gap-3 rounded-md border border-ink/10 bg-white px-3 py-2 text-sm">
@@ -180,7 +201,7 @@ export function ProfileForm({ subjects }: { subjects: SubjectOption[] }) {
             </label>
           ))}
         </div>
-        <h3 className="mt-5 text-sm font-semibold text-ink">Se le dan especialmente bien</h3>
+        <h3 className="mt-5 text-sm font-semibold text-ink">Les que se't donen millor</h3>
         <div className="mt-3 flex flex-wrap gap-2">
           {studiedSubjects.map((code) => (
             <button
@@ -195,7 +216,7 @@ export function ProfileForm({ subjects }: { subjects: SubjectOption[] }) {
             </button>
           ))}
         </div>
-        <h3 className="mt-6 text-sm font-semibold text-ink">Troncales de BAT que le gustaban</h3>
+        <h3 className="mt-6 text-sm font-semibold text-ink">Assignatures comunes que t'agradaven</h3>
         <div className="mt-3 flex flex-wrap gap-2">
           {coreSubjects.map((subject) => (
             <button
@@ -213,9 +234,9 @@ export function ProfileForm({ subjects }: { subjects: SubjectOption[] }) {
       </section>
 
       <section className="rounded-lg border border-ink/10 bg-white/80 p-5">
-        <h2 className="text-lg font-semibold text-ink">Preferencias</h2>
+        <h2 className="text-lg font-semibold text-ink">El que busques</h2>
         <label className="mt-4 block text-sm font-medium text-ink">
-          Nota de acceso estimada
+          Nota que creus que pots treure
           <input
             className="mt-2 w-full rounded-md border border-ink/15 bg-white px-3 py-2"
             value={estimatedAdmission}
@@ -224,13 +245,13 @@ export function ProfileForm({ subjects }: { subjects: SubjectOption[] }) {
           />
         </label>
         <label className="mt-4 block text-sm font-medium text-ink">
-          Ciudad preferida
+          Ciutat que prefereixes
           <select
             className="mt-2 w-full rounded-md border border-ink/15 bg-white px-3 py-2"
             value={preferredCity}
             onChange={(event) => setPreferredCity(event.target.value)}
           >
-            <option value="">Sin preferencia</option>
+            <option value="">Sense preferència</option>
             {cities.map((city) => (
               <option key={city} value={city}>
                 {city}
@@ -244,22 +265,22 @@ export function ProfileForm({ subjects }: { subjects: SubjectOption[] }) {
             checked={includePrivateUniversities}
             onChange={(event) => setIncludePrivateUniversities(event.target.checked)}
           />
-          <span>Mostrar universidades privadas y centros privados</span>
+          <span>Incloure universitats i centres privats</span>
         </label>
 
         <div className="mt-5 grid gap-4 sm:grid-cols-2">
-          <Range label="Tolerancia a matematicas" value={mathTolerance} onChange={setMathTolerance} />
-          <Range label="Tolerancia a fisica/quimica" value={scienceTolerance} onChange={setScienceTolerance} />
-          <Range label="Trato con personas" value={peoplePreference} onChange={setPeoplePreference} />
-          <Range label="Creatividad" value={creativityPreference} onChange={setCreativityPreference} />
-          <Range label="Salidas laborales" value={employabilityImportance} onChange={setEmployabilityImportance} />
+          <Range label="Com portes les mates" value={mathTolerance} onChange={setMathTolerance} />
+          <Range label="Comoditat amb la ciència" value={scienceTolerance} onChange={setScienceTolerance} />
+          <Range label="Ganes de treballar amb persones" value={peoplePreference} onChange={setPeoplePreference} />
+          <Range label="Ganes de crear coses" value={creativityPreference} onChange={setCreativityPreference} />
+          <Range label="Importància de trobar feina" value={employabilityImportance} onChange={setEmployabilityImportance} />
         </div>
 
-        <Chooser title="Intereses" values={interests} selected={selectedInterests} onToggle={(value) => toggle(value, selectedInterests, setSelectedInterests)} />
-        <Chooser title="Cosas que no quiere" values={dislikes} selected={selectedDislikes} onToggle={(value) => toggle(value, selectedDislikes, setSelectedDislikes)} />
+        <Chooser title="Coses que t'interessen" values={interests} selected={selectedInterests} onToggle={(value) => toggle(value, selectedInterests, setSelectedInterests)} />
+        <Chooser title="El que prefereixes evitar" values={dislikes} selected={selectedDislikes} onToggle={(value) => toggle(value, selectedDislikes, setSelectedDislikes)} />
 
         <button type="button" onClick={submit} className="mt-6 w-full rounded-md bg-ink px-5 py-3 text-sm font-semibold text-white hover:bg-ink/90">
-          Ver recomendaciones
+          Veure carreres recomanades
         </button>
       </section>
     </div>
@@ -285,7 +306,7 @@ function Chooser({
   onToggle
 }: {
   title: string;
-  values: string[];
+  values: ChoiceOption[];
   selected: string[];
   onToggle: (value: string) => void;
 }) {
@@ -293,16 +314,16 @@ function Chooser({
     <div className="mt-5">
       <h3 className="text-sm font-semibold text-ink">{title}</h3>
       <div className="mt-3 flex flex-wrap gap-2">
-        {values.map((value) => (
+        {values.map((option) => (
           <button
-            key={value}
+            key={option.value}
             type="button"
-            onClick={() => onToggle(value)}
+            onClick={() => onToggle(option.value)}
             className={`rounded-md border px-3 py-2 text-sm ${
-              selected.includes(value) ? "border-coral bg-coral text-white" : "border-ink/10 bg-white text-ink"
+              selected.includes(option.value) ? "border-coral bg-coral text-white" : "border-ink/10 bg-white text-ink"
             }`}
           >
-            {value}
+            {option.label}
           </button>
         ))}
       </div>
