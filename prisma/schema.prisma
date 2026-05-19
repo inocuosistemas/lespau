@@ -1,0 +1,124 @@
+generator client {
+  provider = "prisma-client-js"
+  binaryTargets = ["native", "rhel-openssl-3.0.x"]
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model University {
+  id       String   @id @default(cuid())
+  code     String   @unique
+  name     String
+  url      String?
+  campuses Campus[]
+  degrees  Degree[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Campus {
+  id           String     @id @default(cuid())
+  name         String
+  city         String
+  universityId String
+  university   University @relation(fields: [universityId], references: [id], onDelete: Cascade)
+  degrees      Degree[]
+
+  @@unique([universityId, name, city])
+}
+
+model Subject {
+  id       String                @id @default(cuid())
+  code     String                @unique
+  name     String
+  category String?
+  weights  DegreeSubjectWeight[]
+}
+
+model Degree {
+  id          String  @id @default(cuid())
+  code        String  @unique
+  name        String
+  branch      String
+  type        String  @default("grado")
+  modality    String?
+  ownership   String  @default("public")
+  centerType  String?
+  seats       Int?
+  cutoff      Float?
+  officialUrl String?
+
+  universityId String
+  campusId     String?
+  university   University @relation(fields: [universityId], references: [id], onDelete: Cascade)
+  campus       Campus?    @relation(fields: [campusId], references: [id], onDelete: SetNull)
+
+  tags              String
+  interestTags      String
+  avoidTags         String
+  mathIntensity     Int  @default(2)
+  scienceIntensity  Int  @default(2)
+  peopleInteraction Int  @default(2)
+  creativity        Int  @default(2)
+  employability     Int  @default(3)
+
+  weights DegreeSubjectWeight[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model DegreeSubjectWeight {
+  id        String  @id @default(cuid())
+  degreeId  String
+  subjectId String
+  weight    Float
+  source    String?
+
+  degree  Degree  @relation(fields: [degreeId], references: [id], onDelete: Cascade)
+  subject Subject @relation(fields: [subjectId], references: [id], onDelete: Cascade)
+
+  @@unique([degreeId, subjectId])
+  @@index([subjectId])
+}
+
+model UserProfile {
+  id                 String   @id @default(cuid())
+  name               String?
+  studiedSubjects    String
+  strongSubjects     String
+  estimatedAdmission Float?
+  interests          String
+  dislikes           String
+  preferredCity      String?
+  mathTolerance      Int      @default(3)
+  scienceTolerance   Int      @default(3)
+  peoplePreference   Int      @default(3)
+  creativityPreference Int    @default(3)
+  employabilityImportance Int @default(3)
+  distanceImportance Int     @default(3)
+  perceivedDifficultyTolerance Int @default(3)
+
+  results   RecommendationResult[]
+  createdAt DateTime @default(now())
+}
+
+model RecommendationResult {
+  id        String      @id @default(cuid())
+  profileId String
+  degreeId  String
+  score     Float
+  breakdown String
+  reasons   String
+
+  profile UserProfile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+
+  @@index([profileId])
+  @@index([degreeId])
+}

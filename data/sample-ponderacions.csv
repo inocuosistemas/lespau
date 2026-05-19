@@ -1,0 +1,9 @@
+degree_code,degree_name,university_code,subject_code,subject_name,weight
+UB-MED,Medicina,UB,BIO,Biologia,0.2
+UB-MED,Medicina,UB,QUI,Quimica,0.2
+UB-MED,Medicina,UB,MATHII,Matematiques II,0.2
+UPC-INF,Enginyeria Informatica,UPC,MATHII,Matematiques II,0.2
+UPC-INF,Enginyeria Informatica,UPC,FIS,Fisica,0.2
+UPC-INF,Enginyeria Informatica,UPC,TEC,Tecnologia i Enginyeria,0.2
+UPF-COM,Comunicacio Audiovisual,UPF,DISS,Disseny,0.2
+UPF-COM,Comunicacio Audiovisual,UPF,HISTART,Historia de l'Art,0.2
