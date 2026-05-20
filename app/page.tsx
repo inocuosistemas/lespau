@@ -1,65 +1,137 @@
-import Link from "next/link";
+"use client";
 
-const highlights = [
-  {
-    title: "Comença pel que et mou",
-    text: "Explica què t'agrada, quines assignatures portes millor i quin tipus de vida universitària et ve de gust."
-  },
-  {
-    title: "Menys embolic, millors opcions",
-    text: "Agrupa carreres semblants perquè nois i noies pugueu comparar sense perdre-us en llistes infinites."
-  },
-  {
-    title: "Sense decidir a cegues",
-    text: "Cada recomanació explica què pinta bé, què cal revisar i com entra en joc la teva nota."
+import Link from "next/link";
+import { useRef } from "react";
+
+const heroVideoUrl =
+  "https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260405_074625_a81f018a-956b-43fb-9aee-4d1508e30e6a.mp4";
+
+function ArrowRightIcon({ className = "" }: { className?: string }) {
+  return (
+    <svg className={className} width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path d="M5 12h14" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+      <path d="m13 6 6 6-6 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
+function GlobeIcon({ className = "" }: { className?: string }) {
+  return (
+    <svg className={className} width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <circle cx="12" cy="12" r="9" stroke="currentColor" strokeWidth="2" />
+      <path d="M3 12h18M12 3c2.2 2.4 3.3 5.4 3.3 9S14.2 18.6 12 21M12 3C9.8 5.4 8.7 8.4 8.7 12S9.8 18.6 12 21" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+function animateVideoOpacity(video: HTMLVideoElement, to: number, duration = 500) {
+  const from = Number(video.style.opacity || 0);
+  const start = performance.now();
+
+  function tick(now: number) {
+    const progress = Math.min((now - start) / duration, 1);
+    video.style.opacity = String(from + (to - from) * progress);
+    if (progress < 1) requestAnimationFrame(tick);
   }
-];
+
+  requestAnimationFrame(tick);
+}
 
 export default function HomePage() {
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const isFadingOutRef = useRef(false);
+
+  function fadeIn() {
+    const video = videoRef.current;
+    if (!video) return;
+    isFadingOutRef.current = false;
+    void video.play();
+    animateVideoOpacity(video, 1);
+  }
+
+  function handleTimeUpdate() {
+    const video = videoRef.current;
+    if (!video || isFadingOutRef.current || !Number.isFinite(video.duration)) return;
+    if (video.duration - video.currentTime <= 0.55) {
+      isFadingOutRef.current = true;
+      animateVideoOpacity(video, 0);
+    }
+  }
+
+  function handleEnded() {
+    const video = videoRef.current;
+    if (!video) return;
+    video.style.opacity = "0";
+    window.setTimeout(() => {
+      video.currentTime = 0;
+      void video.play();
+      fadeIn();
+    }, 100);
+  }
+
   return (
-    <section className="mx-auto grid min-h-[calc(100vh-65px)] max-w-6xl items-center gap-10 px-5 py-10 lg:grid-cols-[1.05fr_0.95fr]">
-      <div className="py-8">
-        <p className="mb-4 text-sm font-semibold uppercase tracking-wide text-coral">Per triar després de la PAU</p>
-        <h1 className="max-w-3xl text-4xl font-bold leading-tight text-ink md:text-6xl">
-          Troba carreres que encaixen amb la teva manera de ser.
+    <section className="relative flex min-h-[calc(100vh-65px)] flex-col overflow-hidden bg-black">
+      <video
+        ref={videoRef}
+        className="absolute inset-0 h-full w-full object-cover object-bottom"
+        src={heroVideoUrl}
+        muted
+        autoPlay
+        playsInline
+        preload="auto"
+        onCanPlay={fadeIn}
+        onTimeUpdate={handleTimeUpdate}
+        onEnded={handleEnded}
+        style={{ opacity: 0 }}
+      />
+      <div className="absolute inset-0 bg-black/35" />
+      <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black via-black/45 to-transparent" />
+
+      <div className="relative z-10 mx-auto flex w-full max-w-6xl flex-1 flex-col items-center justify-center px-6 py-12 text-center md:-translate-y-[8%]">
+        <div className="liquid-glass mb-8 flex items-center gap-3 rounded-full px-5 py-3 text-white/85">
+          <GlobeIcon className="h-5 w-5" />
+          <span className="text-sm font-medium">PAU Match Catalunya</span>
+        </div>
+
+        <h1
+          className="whitespace-nowrap text-5xl tracking-tight text-white sm:text-6xl md:text-8xl lg:text-9xl"
+          style={{ fontFamily: '"Instrument Serif", serif' }}
+        >
+          Tria-ho i entén-ho <em className="italic">tot</em>
         </h1>
-        <p className="mt-6 max-w-2xl text-lg leading-8 text-ink/70">
-          Respon unes preguntes ràpides i compara opcions reals a Catalunya segons els teus gustos, les teves assignatures
-          i la teva nota estimada. La idea no és decidir per tu, sinó ajudar-te a veure-ho més clar.
+
+        <p className="mt-6 max-w-2xl px-4 text-sm leading-relaxed text-white/80 md:text-base">
+          Un recomanador explicable per comparar graus universitaris a Catalunya segons interessos, PAU, nota estimada,
+          ubicació i preferències personals.
         </p>
-        <div className="mt-8 flex flex-wrap gap-3">
-          <Link className="rounded-md bg-ink px-5 py-3 text-sm font-semibold text-white hover:bg-ink/90" href="/profile">
-            Començar
-          </Link>
-          <Link className="rounded-md border border-ink/15 bg-white/70 px-5 py-3 text-sm font-semibold text-ink hover:bg-white" href="/profile">
-            Veure les meves opcions
-          </Link>
+
+        <div className="mt-8 w-full max-w-xl">
+          <div className="liquid-glass flex items-center gap-3 rounded-full py-2 pl-6 pr-2">
+            <span className="min-w-0 flex-1 truncate text-left text-sm text-white/55">Comença amb el teu perfil i mira opcions reals</span>
+            <Link href="/profile" className="rounded-full bg-white p-3 text-black transition-transform hover:scale-105" aria-label="Començar perfil">
+              <ArrowRightIcon className="h-5 w-5" />
+            </Link>
+          </div>
         </div>
+
+        <Link
+          href="/profile"
+          className="liquid-glass mt-5 rounded-full px-8 py-3 text-sm font-medium text-white transition-colors hover:bg-white/5"
+        >
+          Crear el meu perfil
+        </Link>
       </div>
-      <div className="rounded-lg border border-ink/10 bg-white/85 p-6 shadow-sm">
-        <h2 className="text-xl font-semibold text-ink">Com funciona</h2>
-        <div className="mt-5 space-y-4">
-          {highlights.map((item) => (
-            <div key={item.title} className="border-l-4 border-moss bg-paper/70 px-4 py-3">
-              <h3 className="text-sm font-semibold text-ink">{item.title}</h3>
-              <p className="mt-1 text-sm leading-6 text-ink/70">{item.text}</p>
-            </div>
-          ))}
-        </div>
-        <dl className="mt-6 grid gap-3 text-sm text-ink/70 sm:grid-cols-3">
-          <div>
-            <dt className="text-2xl font-bold text-ink">+700</dt>
-            <dd>opcions revisades</dd>
-          </div>
-          <div>
-            <dt className="text-2xl font-bold text-ink">PAU</dt>
-            <dd>nota i assignatures</dd>
-          </div>
-          <div>
-            <dt className="text-2xl font-bold text-ink">Clar</dt>
-            <dd>motius sense embolics</dd>
-          </div>
-        </dl>
+
+      <div className="relative z-10 flex justify-center gap-4 pb-12">
+        {["PAU", "Graus", "Notes"].map((item) => (
+          <Link
+            key={item}
+            href="/profile"
+            className="liquid-glass rounded-full px-5 py-3 text-sm font-medium text-white/80 transition-all hover:bg-white/5 hover:text-white"
+          >
+            {item}
+          </Link>
+        ))}
       </div>
     </section>
   );
