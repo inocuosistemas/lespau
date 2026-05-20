@@ -18,11 +18,11 @@ export default function RootLayout({ children }: Readonly<{ children: ReactNode 
               PAU Match Catalunya
             </Link>
             <div className="flex items-center gap-2 text-sm">
-              <Link className="rounded-md px-3 py-2 text-ink/75 hover:bg-ink/5" href="/">
-                Inici
-              </Link>
               <Link className="rounded-md px-3 py-2 text-ink/75 hover:bg-ink/5" href="/profile">
-                Les meves opcions
+                Crear el meu perfil
+              </Link>
+              <Link className="rounded-md px-3 py-2 text-ink/75 hover:bg-ink/5" href="/admin/import">
+                Veure dades i pesos
               </Link>
             </div>
           </nav>
