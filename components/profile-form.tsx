@@ -56,7 +56,7 @@ const coreSubjects = [
   { value: "educacion_fisica", label: "Educació física" },
   { value: "dibujo", label: "Dibuix" }
 ];
-const storageKey = "pau-match-profile-v1";
+const storageKey = "pau-match-profile-v2";
 const scoringStorageKey = "pau-match-scoring-weights-v1";
 
 type StoredProfile = {
@@ -77,14 +77,14 @@ type StoredProfile = {
 
 export function ProfileForm({ subjects }: { subjects: SubjectOption[] }) {
   const router = useRouter();
-  const [studiedSubjects, setStudiedSubjects] = useState<string[]>(["BIO", "MATHSS"]);
-  const [strongSubjects, setStrongSubjects] = useState<string[]>(["BIO"]);
-  const [favoriteCoreSubjects, setFavoriteCoreSubjects] = useState<string[]>(["historia"]);
+  const [studiedSubjects, setStudiedSubjects] = useState<string[]>([]);
+  const [strongSubjects, setStrongSubjects] = useState<string[]>([]);
+  const [favoriteCoreSubjects, setFavoriteCoreSubjects] = useState<string[]>([]);
   const [includePrivateUniversities, setIncludePrivateUniversities] = useState(true);
-  const [selectedInterests, setSelectedInterests] = useState<string[]>(["salud", "trato humano"]);
-  const [selectedDislikes, setSelectedDislikes] = useState<string[]>(["mucha matematica"]);
-  const [estimatedAdmission, setEstimatedAdmission] = useState("10.8");
-  const [preferredCity, setPreferredCity] = useState("Barcelona");
+  const [selectedInterests, setSelectedInterests] = useState<string[]>([]);
+  const [selectedDislikes, setSelectedDislikes] = useState<string[]>([]);
+  const [estimatedAdmission, setEstimatedAdmission] = useState("");
+  const [preferredCity, setPreferredCity] = useState("");
   const [mathTolerance, setMathTolerance] = useState(3);
   const [scienceTolerance, setScienceTolerance] = useState(4);
   const [peoplePreference, setPeoplePreference] = useState(5);
