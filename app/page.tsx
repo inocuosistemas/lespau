@@ -6,15 +6,6 @@ import { useRef } from "react";
 const heroVideoUrl =
   "https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260405_074625_a81f018a-956b-43fb-9aee-4d1508e30e6a.mp4";
 
-function ArrowRightIcon({ className = "" }: { className?: string }) {
-  return (
-    <svg className={className} width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-      <path d="M5 12h14" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-      <path d="m13 6 6 6-6 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-  );
-}
-
 function GlobeIcon({ className = "" }: { className?: string }) {
   return (
     <svg className={className} width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
@@ -105,33 +96,20 @@ export default function HomePage() {
           ubicació i preferències personals.
         </p>
 
-        <div className="mt-8 w-full max-w-xl">
-          <div className="liquid-glass flex items-center gap-3 rounded-full py-2 pl-6 pr-2">
-            <span className="min-w-0 flex-1 truncate text-left text-sm text-white/55">Comença amb el teu perfil i mira opcions reals</span>
-            <Link href="/profile" className="rounded-full bg-white p-3 text-black transition-transform hover:scale-105" aria-label="Començar perfil">
-              <ArrowRightIcon className="h-5 w-5" />
-            </Link>
-          </div>
-        </div>
-
-        <Link
-          href="/profile"
-          className="liquid-glass mt-5 rounded-full px-8 py-3 text-sm font-medium text-white transition-colors hover:bg-white/5"
-        >
-          Crear el meu perfil
-        </Link>
-      </div>
-
-      <div className="relative z-10 flex justify-center gap-4 pb-12">
-        {["PAU", "Graus", "Notes"].map((item) => (
+        <div className="mt-8 flex flex-wrap justify-center gap-3">
           <Link
-            key={item}
             href="/profile"
-            className="liquid-glass rounded-full px-5 py-3 text-sm font-medium text-white/80 transition-all hover:bg-white/5 hover:text-white"
+            className="rounded-full bg-white px-8 py-3 text-sm font-semibold text-black transition-transform hover:scale-105"
           >
-            {item}
+            Crear el meu perfil
           </Link>
-        ))}
+          <Link
+            href="/admin/import"
+            className="liquid-glass rounded-full px-8 py-3 text-sm font-medium text-white transition-colors hover:bg-white/5"
+          >
+            Veure dades i pesos
+          </Link>
+        </div>
       </div>
     </section>
   );
